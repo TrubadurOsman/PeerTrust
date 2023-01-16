@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 # load abstract embeddings
 npy_filename = "bert_embeddings.npy"
 embeddings = np.load(npy_filename)
-save_plot = True
+save_plot = False
 
 cluster_counts = [1,2,5,10]
 print("Embedding file: %s" % (npy_filename))
@@ -56,8 +56,9 @@ for num_clusters in cluster_counts:
 
     all_corr = np.zeros(num_clusters)
     for i in range(num_clusters):
-        all_corr[i] = pearsonr(x[i],y[i])[0]
-        print("\tCorrelation #%d: %.2f" % (i, all_corr[i]))
+        all_corr[i],pval = pearsonr(x[i],y[i])
+        #print("\tCorrelation #%d: %.2f" % (i, all_corr[i]))
+        print("\tCorrelation #%d: %.2f, %.2f" % (i, all_corr[i], pval))
     print("\tMean Correlation: %.2f" % (all_corr.mean()))
     print()
 
