@@ -4,13 +4,16 @@ from scipy.stats import ttest_ind, pearsonr, spearmanr
 import json
 import matplotlib.pyplot as plt
 
-#json_filename = "datasets/iclr_2017.json"
-json_filename = "datasets/iclr_2017_norm.json"
+json_filename = "datasets/iclr_2017.json"
+#json_filename = "datasets/iclr_2017_norm.json"
 with open(json_filename) as fd:
         data = json.load(fd)
 
 # load abstract embeddings
 npy_filename = "datasets/bert_embeddings.npy"
+#npy_filename = "datasets/fasttext_embeddings.npy"
+#npy_filename = "datasets/reduced_word_embeddings.npy"
+#npy_filename = "datasets/binary_word_embeddings.npy"
 embeddings = np.load(npy_filename)
 norm_idxs = [i for i in map(int,data["id"].keys())]
 embeddings = embeddings[norm_idxs,:]
@@ -35,7 +38,7 @@ for num_clusters in cluster_counts:
     print("Running %d clusters" % (num_clusters))
 
     # kmeans cluster
-    kmeans = KMeans(n_clusters=num_clusters, n_init='auto', random_state=0).fit(embeddings)
+    kmeans = KMeans(n_clusters=num_clusters, n_init="auto", random_state=0).fit(embeddings)
     print("K-means inertia: %.2f" % (kmeans.inertia_))
     print()
     cluster_errors.append(kmeans.inertia_)
