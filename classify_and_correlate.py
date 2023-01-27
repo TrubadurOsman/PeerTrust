@@ -26,15 +26,16 @@ for i in range(embeddings.shape[0]):
 
 save_plot = False
 
-#cluster_counts = [1,2,5,10]
-cluster_counts = range(1,11)
+cluster_counts = [1,2,5,10]
+#cluster_counts = range(1,11)
 cluster_errors = []
+print("JSON file: %s" % (json_filename))
 print("Embedding file: %s" % (npy_filename))
 for num_clusters in cluster_counts:
     print("Running %d clusters" % (num_clusters))
 
     # kmeans cluster
-    kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(embeddings)
+    kmeans = KMeans(n_clusters=num_clusters, n_init='auto', random_state=0).fit(embeddings)
     print("K-means inertia: %.2f" % (kmeans.inertia_))
     print()
     cluster_errors.append(kmeans.inertia_)
@@ -79,13 +80,13 @@ for num_clusters in cluster_counts:
         p_corr[i],p_pvals[i] = pearsonr(x[i],y[i])
         s_corr[i],s_pvals[i] = spearmanr(x[i],y[i])
         
-        print("\tHypothesis Testing #%2d:   %.2f               (%d accepted, %d rejected)" % (i, hyp_tests[i], len(y[i][acc[i]]), len(y[i][rej[i]])))
-        print("\tPearson Correlation #%2d:  %.2f (pval = %.2f) (%d points)" % (i, p_corr[i], p_pvals[i], len(x[i])))
+        print("\tHypothesis Testing #%2d  : %.2f               (%d accepted, %d rejected)" % (i, hyp_tests[i], len(y[i][acc[i]]), len(y[i][rej[i]])))
+        print("\tPearson Correlation #%2d : %.2f (pval = %.2f) (%d points)" % (i, p_corr[i], p_pvals[i], len(x[i])))
         print("\tSpearman Correlation #%2d: %.2f (pval = %.2f) (%d points)" % (i, s_corr[i], s_pvals[i], len(x[i])))
         print()
     print("\tMean Hypothesis Testing p-value: %.2f" % (hyp_tests.mean()))
-    print("\tMean Pearson Correlation:        %.2f (pval = %.2f)" % (p_corr.mean(), p_pvals.mean()))
-    print("\tMean Spearman Correlation:       %.2f (pval = %.2f)" % (s_corr.mean(), s_pvals.mean()))
+    print("\tMean Pearson Correlation       : %.2f (pval = %.2f)" % (p_corr.mean(), p_pvals.mean()))
+    print("\tMean Spearman Correlation      : %.2f (pval = %.2f)" % (s_corr.mean(), s_pvals.mean()))
     print()
 
     if save_plot:
