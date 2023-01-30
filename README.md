@@ -1,5 +1,5 @@
 # PeerTrust
-Data literacy project of Data Literacy course of the University of Tuebingen.
+ Meta Analysis of ICLR2017, Data literacy project at the University of Tuebingen.
 
 ## Files:
 * **classify_and_correlate.py**: Given paper jsons and abstract embeddings, creates clusters and conducts experiments.
